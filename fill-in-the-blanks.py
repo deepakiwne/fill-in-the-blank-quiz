@@ -44,8 +44,16 @@ def play_game(in_string, blanks):
         index = in_string.find(blank)
         
         if index != -1:
-            user_answer = ask_user("What should be substituted in for " + blank + "?")
-            in_string = in_string.replace(blank, user_answer)
+            try_left = 5
+            user_answer_correct = False
+            while(not user_answer_correct and try_left > 0):
+                user_answer = ask_user("What should be substituted in for " + blank + "? ")
+                if user_answer == blank_answers.get(blank):
+                    in_string = in_string.replace(blank, user_answer)
+                    user_answer_correct = True
+                else:
+                    try_left -= 1
+                    print("That isn't the correct answer!  Let's try again; you have " + str(try_left) + " trys left!")
             print(in_string)
 
         else:
@@ -58,4 +66,11 @@ def ask_user(question):
 	return user_input
 
 blanks = ["___1___", "___2___", "___3___", "___4___"]
+blank_answers = {
+	"___1___" : "function",
+	"___2___" : "arguments",
+	"___3___" : "none",
+	"___4___" : "list"
+}
+
 play_game(sample, blanks)
