@@ -32,3 +32,30 @@ tuple, and ___4___ or can be more complicated such as objects and lambda functio
 # Hint: It might help to think about how this project relates to the Mad Libs generator you built with Sean.
 # In the Mad Libs generator, you take a paragraph and replace all instances of NOUN and VERB.
 # How can you adapt that design to work with numbered blanks?
+
+def find_blank(word, blanks):
+    for pos in blanks:
+        if pos in word:
+            return pos
+    return None
+
+def play_game(in_string, blanks):
+    for blank in blanks:
+        index = in_string.find(blank)
+        
+        if index != -1:
+            user_answer = ask_user("What should be substituted in for " + blank + "?")
+            in_string = in_string.replace(blank, user_answer)
+            print(in_string)
+
+        else:
+            return
+
+# Ask the user functionality
+def ask_user(question):
+	user_input = raw_input(question)
+	type(user_input)
+	return user_input
+
+blanks = ["___1___", "___2___", "___3___", "___4___"]
+play_game(sample, blanks)
