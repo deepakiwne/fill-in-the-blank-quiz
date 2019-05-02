@@ -39,7 +39,7 @@ def find_blank(word, blanks):
             return pos
     return None
 
-def play_game(in_string, blanks):
+def play_game(in_string, blanks, answers):
     for blank in blanks:
         index = in_string.find(blank)
         
@@ -48,7 +48,7 @@ def play_game(in_string, blanks):
             user_answer_correct = False
             while(not user_answer_correct and try_left > 0):
                 user_answer = ask_user("What should be substituted in for " + blank + "? ")
-                if user_answer == blank_answers.get(blank):
+                if user_answer == answers.get(blank):
                     in_string = in_string.replace(blank, user_answer)
                     user_answer_correct = True
                 else:
@@ -65,12 +65,64 @@ def ask_user(question):
 	type(user_input)
 	return user_input
 
-blanks = ["___1___", "___2___", "___3___", "___4___"]
-blank_answers = {
+def get_user_option():
+    option = -1
+    while(option == -1):
+        print("Please select a game difficulty by typing it in!")
+        print("Possible choices include easy, medium, and hard.")
+        user_input = ask_user("")
+
+        if user_input == "easy":
+            option = 1
+        elif user_input == "medium":
+            option = 2
+        elif user_input == "hard":
+            option = 3
+        else:
+            print("That's not an option!")
+
+    return option
+
+easy_blanks = ["___1___", "___2___", "___3___", "___4___"]
+easy_answers = {
 	"___1___" : "function",
 	"___2___" : "arguments",
 	"___3___" : "none",
 	"___4___" : "list"
 }
 
-play_game(sample, blanks)
+medium_blanks = ["___1___", "___2___", "___3___", "___4___"]
+medium_answers = {
+	"___1___" : "function",
+	"___2___" : "arguments",
+	"___3___" : "none",
+	"___4___" : "list"
+}
+
+hard_blanks = ["___1___", "___2___", "___3___", "___4___"]
+hard_answers = {
+	"___1___" : "function",
+	"___2___" : "arguments",
+	"___3___" : "none",
+	"___4___" : "list"
+}
+
+option = get_user_option()
+
+blanks = None
+answers = None
+if option == 1:
+    print("You've chosen easy!")
+    blanks = easy_blanks
+    answers = easy_answers
+elif option == 2:
+    print("You've chosen medium!")
+    blanks = easy_blanks
+    answers = easy_answers
+elif option == 3:
+    print("You've chosen hard!")
+    blanks = easy_blanks
+    answers = easy_answers
+
+play_game(sample, blanks, answers)
+
