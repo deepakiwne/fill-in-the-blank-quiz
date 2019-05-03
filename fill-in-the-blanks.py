@@ -1,51 +1,40 @@
 from __future__ import print_function
 
 def play_game(in_string, blanks, answers, limit):
-
     """
     Game loop
     Asks user about each blank and handles user response
     """
-
     for blank in blanks:
         index = in_string.find(blank)
-        
         try_left = limit
         user_answer_correct = False
 
         while(not user_answer_correct and try_left > 0):
             user_answer = ask_user("\n\nWhat should be substituted in for " + blank + "? ")
-            
             if user_answer == answers.get(blank):
                 in_string = handle_correct_response(in_string, user_answer, blank)
                 user_answer_correct = True
             else:
                 try_left -= 1
-
                 if try_left == 0:
                     return False
                 
                 handle_wrong_response(in_string, try_left)
-
             print(in_string)
-
     return True
 
 def handle_correct_response(in_string, user_answer, blank):
-
     """
     Handles correct response from user
-    """
-    
+    """    
     print("\nCorrect!" + "\n\n\nThe current paragraph reads as such:\n")
     return in_string.replace(blank, user_answer)
 
 def handle_wrong_response(in_string, try_left):
-
     """
     Handles incorrect response from user
     """
-    
     print("That isn't the correct answer!", end='')
 
     if try_left == 1:
@@ -54,25 +43,19 @@ def handle_wrong_response(in_string, try_left):
         print(" Let's try again; you have " + str(try_left) + " trys left! \n")
 
     print("The current paragraph reads as such: \n")
-    print(in_string)
 
 def ask_user(question):
-
     """
     Print question on console and return user response
     """
-
     user_input = raw_input(question)
     type(user_input)
     return user_input.lower()
 
 def get_user_option():
-    
     """
     Allows users to select a game difficulty mode
-
     """
-
     option = -1
     while(option == -1):
         print("Please select a game difficulty by typing it in!")
@@ -91,12 +74,9 @@ def get_user_option():
     return option
 
 def get_user_try_limit():
-
     """
     Allows users to input the limit for wrong guesses
-
     """
-
     limit = -1
     while not (limit >= 1 and limit <=10):
         print("Please enter limit for wrong guesses!")
@@ -114,6 +94,7 @@ def get_user_try_limit():
 
     return limit
 
+# Question and answer for easy level
 easy_question = '''A common first thing to do in a language is display
 'Hello __1__!'  In __2__ this is particularly easy; all you have to do
 is type in:
@@ -127,14 +108,13 @@ can be done even more easily with an __4__ file in a browser, but it's
 a step in learning __2__ syntax, and that's really its purpose.'''
 
 easy_blanks = ["__1__", "__2__", "__3__", "__4__"]
-
 easy_answers = {
     "__1__" : "world",
     "__2__" : "python",
     "__3__" : "print",
     "__4__" : "html"
 }
-
+ # Question and answer for medium level    
 medium_question = '''A __1__ is created with the def keyword.  You specify the inputs a
 __1__ takes by adding __2__ separated by commas between the parentheses.
 __1__s by default returns __3__ if you don't specify the value to retrun.
@@ -142,14 +122,13 @@ __2__ can be standard data types such as string, integer, dictionary, tuple,
 and __4__ or can be more complicated such as objects and lambda functions.'''
 
 medium_blanks = ["__1__", "__2__", "__3__", "__4__"]
-
 medium_answers = {
     "__1__" : "function",
     "__2__" : "arguments",
     "__3__" : "none",
     "__4__" : "list"
 }
-
+# Question and answer for hard level
 hard_question = '''When you create a __1__, certain __2__s are automatically
 generated for you if you don't make them manually. These contain multiple
 underscores before and after the word defining them.  When you write
@@ -164,7 +143,6 @@ __9__, and __10__ allow __4__s of the __1__ to be compared
 (with <, >, and ==).'''
 
 hard_blanks = ["__1__", "__2__", "__3__", "__4__", "__5__", "__6__", "__7__", "__8__", "__9__", "__10__"]
-
 hard_answers = {
 	"__1__" : "class",
 	"__2__" : "method",
@@ -183,7 +161,7 @@ option = get_user_option()
 question = None
 blanks = None
 answers = None
-
+# select appropriate question, blanks and answers depending on user input
 if option == 1:
     print("You've chosen easy! \n")
     question = easy_question
@@ -204,9 +182,8 @@ try_limit = get_user_try_limit()
 
 print("You will get " + str(try_limit) + " guesses per problem \n")
 print("The current paragraph reads as such: \n")
-
 print(question)
-
+# Run game loop
 game_success = play_game(question, blanks, answers, try_limit)
 
 if game_success:
