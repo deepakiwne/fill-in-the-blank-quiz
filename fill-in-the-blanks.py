@@ -1,39 +1,60 @@
 from __future__ import print_function
 
-def play_game(in_string, blanks, answers, limit):
+def play_game(question, blanks, answers, limit):
     """
     Game loop
     Asks user about each blank and handles user response
+
+    @type  question : string
+    @param question : question for the user
+    @type  blanks   : list
+    @param blanks   : blanks in the question
+    @type  answers  : dictionary
+    @param answers  : answers for the blanks in the question
+    @type  limit    : integer
+    @param limit    : wrong guesses limit
+    @return         : True in case of game sucess; False in case of Failure
     """
     for blank in blanks:
-        index = in_string.find(blank)
+        index = question.find(blank)
         try_left = limit
         user_answer_correct = False
 
         while(not user_answer_correct and try_left > 0):
             user_answer = ask_user("\n\nWhat should be substituted in for " + blank + "? ")
             if user_answer == answers.get(blank):
-                in_string = handle_correct_response(in_string, user_answer, blank)
+                question = handle_correct_response(question, blank, user_answer)
                 user_answer_correct = True
             else:
                 try_left -= 1
                 if try_left == 0:
                     return False
                 
-                handle_wrong_response(in_string, try_left)
-            print(in_string)
+                handle_wrong_response(try_left)
+            print(question)
     return True
 
-def handle_correct_response(in_string, user_answer, blank):
+def handle_correct_response(question, blank, user_answer):
     """
     Handles correct response from user
-    """    
-    print("\nCorrect!" + "\n\n\nThe current paragraph reads as such:\n")
-    return in_string.replace(blank, user_answer)
 
-def handle_wrong_response(in_string, try_left):
+    @type  question    : string
+    @param question    : the question string
+    @type  blank       : string
+    @param blank       : the blank to be replaced by the answer
+    @type  user_answer : string
+    @param user_answer : answer to replace the blank
+    @return            : updated question after replacing blank with user answer
+    """
+    print("\nCorrect!" + "\n\n\nThe current paragraph reads as such:\n")
+    return question.replace(blank, user_answer)
+
+def handle_wrong_response(try_left):
     """
     Handles incorrect response from user
+
+    @type  try_left    : integer
+    @param try_left    : number of guesses left
     """
     print("That isn't the correct answer!", end='')
 
@@ -47,6 +68,10 @@ def handle_wrong_response(in_string, try_left):
 def ask_user(question):
     """
     Print question on console and return user response
+
+    @type  question    : string
+    @param question    : the question string
+    @return            : user response in lower case
     """
     user_input = raw_input(question)
     type(user_input)
@@ -55,6 +80,8 @@ def ask_user(question):
 def get_user_option():
     """
     Allows users to select a game difficulty mode
+
+    @return : difficulty level. 1: easy, 2: medium, 3: hard
     """
     option = -1
     while(option == -1):
@@ -76,6 +103,8 @@ def get_user_option():
 def get_user_try_limit():
     """
     Allows users to input the limit for wrong guesses
+
+    @return : limit of wrong guesses entered by user
     """
     limit = -1
     while not (limit >= 1 and limit <=10):
