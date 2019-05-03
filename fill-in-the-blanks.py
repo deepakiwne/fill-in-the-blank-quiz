@@ -74,7 +74,9 @@ def find_blank(word, blanks):
 
 def play_game(in_string, blanks, answers):
 
-    print("You will get 5 guesses per problem")
+    global limit
+
+    print("You will get " + str(limit) + " guesses per problem")
     print("")
     print("The current paragraph reads as such:")
     print("")
@@ -82,11 +84,12 @@ def play_game(in_string, blanks, answers):
     print(in_string)
 
     game_won = False
+
     for blank in blanks:
         index = in_string.find(blank)
         
         if index != -1:
-            try_left = 5
+            try_left = limit
             user_answer_correct = False
             while(not user_answer_correct and try_left > 0):
                 user_answer = ask_user("\n\nWhat should be substituted in for " + blank + "? ")
@@ -142,6 +145,26 @@ def get_user_option():
 
     return option
 
+def get_user_try_limit():
+
+    global limit
+    limit = -1
+    while not (limit >= 1 and limit <=10):
+        print("Please enter limit for wrong guesses!")
+        print("Possible range is 1 to 10")
+        user_input = ask_user("")
+
+        try:
+            limit = int(user_input)
+        except ValueError:
+            print("This is not an integer!")
+            continue
+
+        if (limit < 1 or limit > 10):
+            print("The limit is out of range!")
+
+    return limit
+
 easy_blanks = ["__1__", "__2__", "__3__", "__4__"]
 easy_answers = {
 	"__1__" : "world",
@@ -174,6 +197,7 @@ hard_answers = {
 
 option = get_user_option()
 
+limit = -1
 question = None
 blanks = None
 answers = None
@@ -195,6 +219,8 @@ elif option == 3:
     question = hard_question
     blanks = hard_blanks
     answers = hard_answers
+
+try_limit = get_user_try_limit()
 
 play_game(question, blanks, answers)
 
