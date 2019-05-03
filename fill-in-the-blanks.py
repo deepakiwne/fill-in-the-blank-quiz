@@ -1,86 +1,47 @@
-# IPND Stage 2 Final Project
-
-# You've built a Mad-Libs game with some help from Sean.
-# Now you'll work on your own game to practice your skills and demonstrate what you've learned.
-
-# For this project, you'll be building a Fill-in-the-Blanks quiz.
-# Your quiz will prompt a user with a paragraph containing several blanks.
-# The user should then be asked to fill in each blank appropriately to complete the paragraph.
-# This can be used as a study tool to help you remember important vocabulary!
-
-# Note: Your game will have to accept user input so, like the Mad Libs generator,
-# you won't be able to run it using Sublime's `Build` feature.
-# Instead you'll need to run the program in Terminal or IDLE.
-# Refer to Work Session 5 if you need a refresher on how to do this.
-
-# To help you get started, we've provided a sample paragraph that you can use when testing your code.
-# Your game should consist of 3 or more levels, so you should add your own paragraphs as well!
 from __future__ import print_function
 
-# The answer for ___1___ is 'function'. Can you figure out the others?
-
-# We've also given you a file called fill-in-the-blanks.pyc which is a working version of the project.
-# A .pyc file is a Python file that has been translated into "byte code".
-# This means the code will run the same as the original .py file, but when you open it
-# it won't look like Python code! But you can run it just like a regular Python file
-# to see how your code should behave.
-
-# Hint: It might help to think about how this project relates to the Mad Libs generator you built with Sean.
-# In the Mad Libs generator, you take a paragraph and replace all instances of NOUN and VERB.
-# How can you adapt that design to work with numbered blanks?
-
-def find_blank(word, blanks):
-    for pos in blanks:
-        if pos in word:
-            return pos
-    return None
-
 def play_game(in_string, blanks, answers, limit):
-
-    print("You will get " + str(limit) + " guesses per problem")
-    print("")
-    print("The current paragraph reads as such:")
-    print("")
-
-    print(in_string)
-
-    game_won = False
 
     for blank in blanks:
         index = in_string.find(blank)
         
-        if index != -1:
-            try_left = limit
-            user_answer_correct = False
-            while(not user_answer_correct and try_left > 0):
-                user_answer = ask_user("\n\nWhat should be substituted in for " + blank + "? ")
-                if user_answer == answers.get(blank):
-                    print("\nCorrect!" + "\n\n\nThe current paragraph reads as such:\n")
-                    in_string = in_string.replace(blank, user_answer)
-                    user_answer_correct = True
-                else:
-                    try_left -= 1
-    
-                    if try_left == 0:
-                        print("You've failed too many straight guesses!  Game over!")
-                        return
+        try_left = limit
+        user_answer_correct = False
 
-                    print("That isn't the correct answer!", end='')  
-                    if try_left == 1:
-                        print(" You only have 1 try left!  Make it count!")
-                    else:
-                        print(" Let's try again; you have " + str(try_left) + " trys left!")
-                    print("")
-                    print("The current paragraph reads as such:")
-                    print("")
-                    print(in_string)
+        while(not user_answer_correct and try_left > 0):
+            user_answer = ask_user("\n\nWhat should be substituted in for " + blank + "? ")
+            
+            if user_answer == answers.get(blank):
+                in_string = handle_correct_response(in_string, user_answer, blank)
+                user_answer_correct = True
+            else:
+                try_left -= 1
+
+                if try_left == 0:
+                    return False
+                
+                handle_wrong_response(in_string, try_left)
 
             print(in_string)
 
-        else:
-            return
+    return True
 
-    print("You won!")
+def handle_correct_response(in_string, user_answer, blank):
+    
+    print("\nCorrect!" + "\n\n\nThe current paragraph reads as such:\n")
+    return in_string.replace(blank, user_answer)
+
+def handle_wrong_response(in_string, try_left):
+
+    print("That isn't the correct answer!", end='')
+
+    if try_left == 1:
+        print(" You only have 1 try left!  Make it count! \n")
+    else:
+        print(" Let's try again; you have " + str(try_left) + " trys left! \n")
+
+    print("The current paragraph reads as such: \n")
+    print(in_string)
 
 # Ask the user functionality
 def ask_user(question):
@@ -107,7 +68,7 @@ def get_user_option():
     return option
 
 def get_user_try_limit():
-    
+
     limit = -1
     while not (limit >= 1 and limit <=10):
         print("Please enter limit for wrong guesses!")
@@ -196,25 +157,31 @@ blanks = None
 answers = None
 
 if option == 1:
-    print("You've chosen easy!")
-    print("")
+    print("You've chosen easy! \n")
     question = easy_question
     blanks = easy_blanks
     answers = easy_answers
 elif option == 2:
-    print("You've chosen medium!")
-    print("")
+    print("You've chosen medium! \n")
     question = medium_question
     blanks = medium_blanks
     answers = medium_answers
 elif option == 3:
-    print("You've chosen hard!")
-    print("")
+    print("You've chosen hard! \n")
     question = hard_question
     blanks = hard_blanks
     answers = hard_answers
 
 try_limit = get_user_try_limit()
 
-play_game(question, blanks, answers, try_limit)
+print("You will get " + str(try_limit) + " guesses per problem \n")
+print("The current paragraph reads as such: \n")
 
+print(question)
+
+game_success = play_game(question, blanks, answers, try_limit)
+
+if game_success:
+    print("You won!")
+else:
+    print("You've failed too many straight guesses!  Game over!")
