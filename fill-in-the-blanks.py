@@ -17,43 +17,6 @@
 # Your game should consist of 3 or more levels, so you should add your own paragraphs as well!
 from __future__ import print_function
 
-sample = '''A ___1___ is created with the def keyword. You specify the inputs a ___1___ takes by
-adding ___2___ separated by commas between the parentheses. ___1___s by default return ___3___ if you
-don't specify the value to return. ___2___ can be standard data types such as string, number, dictionary,
-tuple, and ___4___ or can be more complicated such as objects and lambda functions.'''
-
-easy_question = '''A common first thing to do in a language is display
-'Hello __1__!'  In __2__ this is particularly easy; all you have to do
-is type in:
-__3__ "Hello __1__!"
-Of course, that isn't a very useful thing to do. However, it is an
-example of how to output to the user using the __3__ command, and
-produces a program which does something, so it is useful in that capacity.
-
-It may seem a bit odd to do something in a Turing complete language that
-can be done even more easily with an __4__ file in a browser, but it's
-a step in learning __2__ syntax, and that's really its purpose.'''
-
-medium_question = '''A __1__ is created with the def keyword.  You specify the inputs a
-__1__ takes by adding __2__ separated by commas between the parentheses.
-__1__s by default returns __3__ if you don't specify the value to retrun.
-__2__ can be standard data types such as string, integer, dictionary, tuple,
-and __4__ or can be more complicated such as objects and lambda functions.'''
-
-hard_question = '''When you create a __1__, certain __2__s are automatically
-generated for you if you don't make them manually. These contain multiple
-underscores before and after the word defining them.  When you write
-a __1__, you almost always include at least the __3__ __2__, defining
-variables for when __4__s of the __1__ get made.  Additionally, you generally
-want to create a __5__ __2__, which will allow a string representation
-of the method to be viewed by other developers.
-
-You can also create binary operators, like __6__ and __7__, which
-allow + and - to be used by __4__s of the __1__.  Similarly, __8__,
-__9__, and __10__ allow __4__s of the __1__ to be compared
-(with <, >, and ==).'''
-
-
 # The answer for ___1___ is 'function'. Can you figure out the others?
 
 # We've also given you a file called fill-in-the-blanks.pyc which is a working version of the project.
@@ -72,9 +35,7 @@ def find_blank(word, blanks):
             return pos
     return None
 
-def play_game(in_string, blanks, answers):
-
-    global limit
+def play_game(in_string, blanks, answers, limit):
 
     print("You will get " + str(limit) + " guesses per problem")
     print("")
@@ -146,8 +107,7 @@ def get_user_option():
     return option
 
 def get_user_try_limit():
-
-    global limit
+    
     limit = -1
     while not (limit >= 1 and limit <=10):
         print("Please enter limit for wrong guesses!")
@@ -165,23 +125,57 @@ def get_user_try_limit():
 
     return limit
 
+easy_question = '''A common first thing to do in a language is display
+'Hello __1__!'  In __2__ this is particularly easy; all you have to do
+is type in:
+__3__ "Hello __1__!"
+Of course, that isn't a very useful thing to do. However, it is an
+example of how to output to the user using the __3__ command, and
+produces a program which does something, so it is useful in that capacity.
+
+It may seem a bit odd to do something in a Turing complete language that
+can be done even more easily with an __4__ file in a browser, but it's
+a step in learning __2__ syntax, and that's really its purpose.'''
+
 easy_blanks = ["__1__", "__2__", "__3__", "__4__"]
+
 easy_answers = {
-	"__1__" : "world",
-	"__2__" : "python",
-	"__3__" : "print",
-	"__4__" : "html"
+    "__1__" : "world",
+    "__2__" : "python",
+    "__3__" : "print",
+    "__4__" : "html"
 }
+
+medium_question = '''A __1__ is created with the def keyword.  You specify the inputs a
+__1__ takes by adding __2__ separated by commas between the parentheses.
+__1__s by default returns __3__ if you don't specify the value to retrun.
+__2__ can be standard data types such as string, integer, dictionary, tuple,
+and __4__ or can be more complicated such as objects and lambda functions.'''
 
 medium_blanks = ["__1__", "__2__", "__3__", "__4__"]
+
 medium_answers = {
-	"__1__" : "function",
-	"__2__" : "arguments",
-	"__3__" : "none",
-	"__4__" : "list"
+    "__1__" : "function",
+    "__2__" : "arguments",
+    "__3__" : "none",
+    "__4__" : "list"
 }
 
+hard_question = '''When you create a __1__, certain __2__s are automatically
+generated for you if you don't make them manually. These contain multiple
+underscores before and after the word defining them.  When you write
+a __1__, you almost always include at least the __3__ __2__, defining
+variables for when __4__s of the __1__ get made.  Additionally, you generally
+want to create a __5__ __2__, which will allow a string representation
+of the method to be viewed by other developers.
+
+You can also create binary operators, like __6__ and __7__, which
+allow + and - to be used by __4__s of the __1__.  Similarly, __8__,
+__9__, and __10__ allow __4__s of the __1__ to be compared
+(with <, >, and ==).'''
+
 hard_blanks = ["__1__", "__2__", "__3__", "__4__", "__5__", "__6__", "__7__", "__8__", "__9__", "__10__"]
+
 hard_answers = {
 	"__1__" : "class",
 	"__2__" : "method",
@@ -197,10 +191,10 @@ hard_answers = {
 
 option = get_user_option()
 
-limit = -1
 question = None
 blanks = None
 answers = None
+
 if option == 1:
     print("You've chosen easy!")
     print("")
@@ -222,5 +216,5 @@ elif option == 3:
 
 try_limit = get_user_try_limit()
 
-play_game(question, blanks, answers)
+play_game(question, blanks, answers, try_limit)
 
