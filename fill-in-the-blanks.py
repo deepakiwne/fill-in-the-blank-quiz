@@ -2,6 +2,11 @@ from __future__ import print_function
 
 def play_game(in_string, blanks, answers, limit):
 
+    """
+    Game loop
+    Asks user about each blank and handles user response
+    """
+
     for blank in blanks:
         index = in_string.find(blank)
         
@@ -27,12 +32,20 @@ def play_game(in_string, blanks, answers, limit):
     return True
 
 def handle_correct_response(in_string, user_answer, blank):
+
+    """
+    Handles correct response from user
+    """
     
     print("\nCorrect!" + "\n\n\nThe current paragraph reads as such:\n")
     return in_string.replace(blank, user_answer)
 
 def handle_wrong_response(in_string, try_left):
 
+    """
+    Handles incorrect response from user
+    """
+    
     print("That isn't the correct answer!", end='')
 
     if try_left == 1:
@@ -43,13 +56,23 @@ def handle_wrong_response(in_string, try_left):
     print("The current paragraph reads as such: \n")
     print(in_string)
 
-# Ask the user functionality
 def ask_user(question):
-	user_input = raw_input(question)
-	type(user_input)
-	return user_input.lower()
+
+    """
+    Print question on console and return user response
+    """
+
+    user_input = raw_input(question)
+    type(user_input)
+    return user_input.lower()
 
 def get_user_option():
+    
+    """
+    Allows users to select a game difficulty mode
+
+    """
+
     option = -1
     while(option == -1):
         print("Please select a game difficulty by typing it in!")
@@ -68,6 +91,11 @@ def get_user_option():
     return option
 
 def get_user_try_limit():
+
+    """
+    Allows users to input the limit for wrong guesses
+
+    """
 
     limit = -1
     while not (limit >= 1 and limit <=10):
