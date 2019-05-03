@@ -122,7 +122,7 @@ def play_game(in_string, blanks, answers):
 def ask_user(question):
 	user_input = raw_input(question)
 	type(user_input)
-	return user_input
+	return user_input.lower()
 
 def get_user_option():
     option = -1
@@ -131,11 +131,11 @@ def get_user_option():
         print("Possible choices include easy, medium, and hard.")
         user_input = ask_user("")
 
-        if user_input == "easy":
+        if (user_input == "easy" or user_input == "e" or user_input == "1"):
             option = 1
-        elif user_input == "medium":
+        elif (user_input == "medium" or user_input == "m" or user_input == "2"):
             option = 2
-        elif user_input == "hard":
+        elif (user_input == "hard" or user_input == "h" or user_input == "3"):
             option = 3
         else:
             print("That's not an option!")
